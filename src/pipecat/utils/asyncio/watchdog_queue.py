@@ -26,8 +26,12 @@ class WatchdogQueue(asyncio.Queue):
         super().__init__(maxsize)
         self._manager = manager
         self._timeout = timeout
+        self._cancel = False
 
     async def get(self):
+        if self._cancel:
+            raise asyncio.CancelledError("Cancelling watchdog queue get() call.")
+
         if self._manager.task_watchdog_enabled:
             return await self._watchdog_get()
         else:
@@ -38,8 +42,13 @@ class WatchdogQueue(asyncio.Queue):
             self._manager.task_reset_watchdog()
         super().task_done()
 
+    def cancel(self):
+        self._cancel = True
+
     async def _watchdog_get(self):
         while True:
+            if self._cancel:
+                raise asyncio.CancelledError("Cancelling watchdog queue get() call.")
             try:
                 item = await asyncio.wait_for(super().get(), timeout=self._timeout)
                 self._manager.task_reset_watchdog()
