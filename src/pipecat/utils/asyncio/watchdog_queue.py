@@ -40,7 +40,8 @@ class WatchdogQueue(asyncio.Queue):
     def task_done(self):
         if self._manager.task_watchdog_enabled:
             self._manager.task_reset_watchdog()
-        super().task_done()
+        if not self._cancel:
+            super().task_done()
 
     def cancel(self):
         self._cancel = True
