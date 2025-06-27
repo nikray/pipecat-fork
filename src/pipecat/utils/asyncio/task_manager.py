@@ -226,6 +226,9 @@ class TaskManager(BaseTaskManager):
             raise
         except Exception as e:
             logger.exception(f"{name}: unexpected exception while stopping task: {e}")
+        except BaseException as e:
+            logger.critical(f"{name}: fatal base exception while stopping task: {e}")
+            raise
 
     async def cancel_task(self, task: asyncio.Task, timeout: Optional[float] = None):
         """Cancels the given asyncio Task and awaits its completion with an

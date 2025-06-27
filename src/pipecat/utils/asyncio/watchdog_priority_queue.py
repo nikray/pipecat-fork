@@ -29,13 +29,17 @@ class WatchdogPriorityQueue(asyncio.PriorityQueue):
         self._cancel = False
 
     async def get(self):
-        if self._cancel:
-            raise asyncio.CancelledError("Cancelling watchdog queue get() call.")
-
-        if self._manager.task_watchdog_enabled:
-            return await self._watchdog_get()
-        else:
-            return await super().get()
+        while True:
+            if self._cancel:
+                raise asyncio.CancelledError("Cancelling watchdog queue get() call.")
+            try:
+                item = await asyncio.wait_for(super().get(), timeout=self._timeout)
+                if self._manager.task_watchdog_enabled:
+                    self._manager.task_reset_watchdog()
+                return item
+            except asyncio.TimeoutError:
+                if self._manager.task_watchdog_enabled:
+                    self._manager.task_reset_watchdog()
 
     def task_done(self):
         if self._manager.task_watchdog_enabled:
@@ -45,14 +49,3 @@ class WatchdogPriorityQueue(asyncio.PriorityQueue):
 
     def cancel(self):
         self._cancel = True
-
-    async def _watchdog_get(self):
-        while True:
-            if self._cancel:
-                raise asyncio.CancelledError("Cancelling watchdog queue get() call.")
-            try:
-                item = await asyncio.wait_for(super().get(), timeout=self._timeout)
-                self._manager.task_reset_watchdog()
-                return item
-            except asyncio.TimeoutError:
-                self._manager.task_reset_watchdog()
