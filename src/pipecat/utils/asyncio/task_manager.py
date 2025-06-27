@@ -324,6 +324,10 @@ class TaskManager(BaseTaskManager):
             task_data = self._tasks[name]
             if task_data.watchdog_task:
                 task_data.watchdog_task.cancel()
+                # In Python 3.10, simply calling task.cancel() looks like is not enough.
+                # Without this, some tasks appear that are never canceled.
+                # Python 3.12 handles this more gracefully, but we keep this for compatibility
+                # and to avoid "Task exception was never retrieved" warnings.
                 self.get_event_loop().create_task(
                     self._cleanup_watchdog(name, task_data.watchdog_task)
                 )
