@@ -303,7 +303,7 @@ class TaskManager(BaseTaskManager):
         while True:
             try:
                 if task_data.task.done():
-                    logger.warning(f"{name}: task is already done, cancelling watchdog task.")
+                    logger.debug(f"{name}: task is already done, cancelling watchdog task.")
                     break
 
                 start_time = time.time()
