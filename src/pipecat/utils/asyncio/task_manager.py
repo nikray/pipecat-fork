@@ -324,7 +324,9 @@ class TaskManager(BaseTaskManager):
             task_data = self._tasks[name]
             if task_data.watchdog_task:
                 task_data.watchdog_task.cancel()
-                self.get_event_loop().create_task(self._cleanup_watchdog(name, task_data.watchdog_task))
+                self.get_event_loop().create_task(
+                    self._cleanup_watchdog(name, task_data.watchdog_task)
+                )
                 task_data.watchdog_task = None
             del self._tasks[name]
         except KeyError as e:
