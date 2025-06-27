@@ -193,6 +193,7 @@ class TavusVideoService(AIService):
 
     async def _cancel_send_task(self):
         if self._send_task:
+            self._queue.cancel()
             await self.cancel_task(self._send_task)
             self._send_task = None
 
