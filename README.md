@@ -85,28 +85,14 @@ To keep things lightweight, only the core framework is included by default. If y
 pip install "pipecat-ai[option,...]"
 ```
 
-### 🐳 Quick start with devcontainer
+### 🐳 Devcontainer support
 
-For the fastest way to get started with Pipecat examples, use our devcontainer setup:
+For VS Code users, this repo includes a devcontainer configuration for easy setup:
 
-1. **Prerequisites**: Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+1. Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+2. Open this repo in VS Code and click "Reopen in Container" when prompted
 
-2. **Open in container**: Clone this repo, open it in VS Code, and when prompted click "Reopen in Container"
-
-3. **Set up an example**: Use our helper script to quickly set up any example:
-   ```shell
-   setup-example simple-chatbot
-   ```
-
-4. **Add your API keys** and run:
-   ```shell
-   cd examples/simple-chatbot/server
-   code .env  # Add your API keys
-   source venv/bin/activate
-   python server.py
-   ```
-
-The devcontainer includes Python 3.11, all development tools, and helpful scripts. Run `list-examples` to see all available examples. See [.devcontainer/README.md](.devcontainer/README.md) for more details.
+The devcontainer includes Python 3.11, development tools, and port forwarding configured for the examples.
 
 ## 🧪 Code examples
 
