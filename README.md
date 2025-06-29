@@ -85,6 +85,29 @@ To keep things lightweight, only the core framework is included by default. If y
 pip install "pipecat-ai[option,...]"
 ```
 
+### 🐳 Quick start with devcontainer
+
+For the fastest way to get started with Pipecat examples, use our devcontainer setup:
+
+1. **Prerequisites**: Install [VS Code](https://code.visualstudio.com/) and the [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+
+2. **Open in container**: Clone this repo, open it in VS Code, and when prompted click "Reopen in Container"
+
+3. **Set up an example**: Use our helper script to quickly set up any example:
+   ```shell
+   setup-example simple-chatbot
+   ```
+
+4. **Add your API keys** and run:
+   ```shell
+   cd examples/simple-chatbot/server
+   code .env  # Add your API keys
+   source venv/bin/activate
+   python server.py
+   ```
+
+The devcontainer includes Python 3.11, all development tools, and helpful scripts. Run `list-examples` to see all available examples. See [.devcontainer/README.md](.devcontainer/README.md) for more details.
+
 ## 🧪 Code examples
 
 - [Foundational](https://github.com/pipecat-ai/pipecat/tree/main/examples/foundational) — small snippets that build on each other, introducing one or two concepts at a time
