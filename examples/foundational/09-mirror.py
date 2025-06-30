@@ -72,7 +72,7 @@ transport_params = {
 
 
 async def run_example(transport: BaseTransport, _: argparse.Namespace, handle_sigint: bool):
-    logger.info(f"Starting bot")
+    logger.info("Starting bot")
 
     pipeline = Pipeline([transport.input(), MirrorProcessor(), transport.output()])
 
@@ -83,12 +83,20 @@ async def run_example(transport: BaseTransport, _: argparse.Namespace, handle_si
 
     @transport.event_handler("on_client_connected")
     async def on_client_connected(transport, client):
-        logger.info(f"Client connected")
+        logger.info("Client connected")
 
     @transport.event_handler("on_client_disconnected")
     async def on_client_disconnected(transport, client):
-        logger.info(f"Client disconnected")
+        logger.info("Client disconnected")
         await task.cancel()
+
+    @transport.event_handler("on_participant_joined")
+    async def on_participant_joined(transport, participant):
+        logger.info(f"Participant joined: {participant['id']}")
+        # Start capturing video from the participant to enable mirroring
+        await transport.capture_participant_video(
+            participant["id"], framerate=30, video_source="camera"
+        )
 
     runner = PipelineRunner(handle_sigint=handle_sigint)
 
