@@ -4,3 +4,4 @@ python-dotenv
 pipecat-ai[webrtc,daily,deepgram,cartesia,soundfile,silero]
 pipecat-ai-small-webrtc-prebuilt
 fal_client
+pyaudio

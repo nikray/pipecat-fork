@@ -53,7 +53,7 @@
   "onCreateCommand": [
     "bash",
     "-c",
-    "sudo apt-get update && sudo apt-get install -y ffmpeg libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 libglib2.0-0 libgl1-mesa-glx && pip install --upgrade pip && pip install python-dotenv"
+    "sudo apt-get update && sudo apt-get install -y ffmpeg libglib2.0-0 libsm6 libxext6 libxrender-dev libgomp1 libglib2.0-0 libgl1-mesa-glx portaudio19-dev python3-dev && pip install --upgrade pip && pip install python-dotenv"
   ],
 
   "forwardPorts": [7860, 8000, 3000, 5000],
